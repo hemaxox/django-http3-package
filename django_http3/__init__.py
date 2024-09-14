@@ -1,0 +1,1 @@
+default_app_config = 'django_http3.apps.DjangoHttp3Config'
