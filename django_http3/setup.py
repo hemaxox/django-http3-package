@@ -10,6 +10,11 @@ setup(
         'aioquic',
         'asgiref',
     ],
+    entry_points={
+        'console_scripts': [
+            'django-http3-test=django_http3.runtests:run_tests',
+        ],
+    },
     author='Ibrahim Muhaisen',
     author_email='ibrahim.muhaisen.2015@gmail.com',
     description='A Django package for automatic HTTP/3 support',
