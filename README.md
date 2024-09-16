@@ -9,9 +9,10 @@
 4. [Configuration](#configuration)
 5. [Usage](#usage)
 6. [Examples](#examples)
-7. [Troubleshooting](#troubleshooting)
-8. [Contributing](#contributing)
-9. [License](#license)
+7. [Tests](#tests)
+8. [Troubleshooting](#troubleshooting)
+9. [Contributing](#contributing)
+10. [License](#license)
 
 ## Introduction
 
@@ -146,6 +147,13 @@ For production, you should use proper SSL certificates. Update your settings.py:
 ```python
 HTTP3_CERT_FILE = '/path/to/your/certfile.pem'
 HTTP3_KEY_FILE = '/path/to/your/keyfile.pem'
+```
+## Running Tests
+
+After installing the package, you can run the test suite with:
+
+```bash
+django-http3-test
 ```
 
 ## Troubleshooting
