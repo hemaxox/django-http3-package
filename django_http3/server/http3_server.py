@@ -1,4 +1,5 @@
 import asyncio
+import logging
 from aioquic.asyncio import serve
 from aioquic.quic.configuration import QuicConfiguration
 from aioquic.h3.connection import H3Connection
@@ -12,18 +13,23 @@ class HTTP3Server:
         self.keyfile = keyfile
 
     async def run(self):
+        logger = logging.getLogger(__name__)
         configuration = QuicConfiguration(
             alpn_protocols=["h3"],
             max_datagram_frame_size=65536,
         )
         configuration.load_cert_chain(self.certfile, self.keyfile)
 
-        await serve(
-            self.host,
-            self.port,
-            configuration=configuration,
-            create_protocol=self.create_protocol,
-        )
+        try:
+            await serve(
+                self.host,
+                self.port,
+                configuration=configuration,
+                create_protocol=self.create_protocol,
+            )
+        except Exception as e:
+            logger.error("HTTP/3 server encountered an error: %s", e)
+            raise
 
     def create_protocol(self):
         return H3Connection(self.app)
