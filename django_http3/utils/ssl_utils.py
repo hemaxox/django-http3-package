@@ -1,4 +1,5 @@
 import os
+import subprocess
 from django.conf import settings
 
 def ensure_ssl_cert():
@@ -9,6 +10,13 @@ def ensure_ssl_cert():
     keyfile = os.path.join(cert_dir, 'key.pem')
     
     if not (os.path.exists(certfile) and os.path.exists(keyfile)):
-        os.system(f'openssl req -x509 -newkey rsa:4096 -keyout {keyfile} -out {certfile} -days 365 -nodes -subj "/CN=localhost"')
-    
+        try:
+            subprocess.run([
+                "openssl", "req", "-x509", "-newkey", "rsa:4096",
+                "-keyout", keyfile, "-out", certfile,
+                "-days", "365", "-nodes", "-subj", "/CN=localhost"
+            ], check=True)
+        except subprocess.CalledProcessError as e:
+            raise RuntimeError("Failed to generate SSL certificate") from e
+
     return certfile, keyfile
